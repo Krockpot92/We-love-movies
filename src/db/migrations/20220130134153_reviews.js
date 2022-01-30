@@ -4,7 +4,7 @@ exports.up = function(knex) {
         table.increments("review_id").primary(); // Sets movie_id as the primary key
         table.text("content");
         table.integer("score");
-        table.integer("moviec_id").unsigned().notNullable();
+        table.integer("movie_id").unsigned().notNullable();
         table
             .foreign("movie_id")
             .references("movie_id")
