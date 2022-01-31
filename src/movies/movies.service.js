@@ -47,7 +47,6 @@ function playingAt(movieId) {
 }
 
 
-
 function movieReview(movieId) {
   return knex("movies as m")
     .join("reviews as r", "m.movie_id", "r.movie_id")
@@ -63,6 +62,9 @@ function movieReview(movieId) {
     )
     .where({ "m.movie_id": movieId })
 }
+
+
+
 
 module.exports = {
   list,
