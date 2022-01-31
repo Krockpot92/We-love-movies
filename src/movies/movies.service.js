@@ -1,4 +1,5 @@
 const knex = require("../db/connection");
+const mapProperties = require("../utils/map-properties");
 
 function list() {
   return knex("movies").select(
@@ -43,11 +44,29 @@ function playingAt(movieId) {
       "m.movie_id",
     )
     .where({ "m.movie_id": movieId })
-    .first();
+}
+
+
+
+function movieReview(movieId) {
+  return knex("movies as m")
+    .join("reviews as r", "m.movie_id", "r.movie_id")
+    .join("critics as c", "c.critic_id", "r.critic_id")
+    .select(
+      "r.review_id",
+      "content",
+      "score",
+      "r.created_at",
+      "r.updated_at",
+      "r.critic_id",
+      "m.movie_id", 
+    )
+    .where({ "m.movie_id": movieId })
 }
 
 module.exports = {
   list,
   read,
   playingAt,
+  movieReview,
 };

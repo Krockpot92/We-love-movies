@@ -3,6 +3,10 @@ const controller = require("./movies.controller");
 const methodNotAllowed = require("../errors/methodNotAllowed");
 const cors = require("cors");
 
+router.route("/:movieId/reviews")
+  .get(controller.movieReview)
+  .all(methodNotAllowed);
+
 router.route("/:movieId/theaters")
   .get(controller.playingAt)
   .all(methodNotAllowed);

@@ -32,8 +32,17 @@ function playingAt(req, res, next) {
     .catch(next);
 }
 
+function movieReview(req, res, next){
+  moviesService
+    .movieReview(req.params.movieId)
+    .then((data) => res.json({data}))
+    .catch(next)
+
+}
+
 module.exports = {
   list,
   read: [movieExists, read],
   playingAt: [movieExists, playingAt],
+  movieReview: [movieExists, movieReview],
 };
