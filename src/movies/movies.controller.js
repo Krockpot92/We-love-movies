@@ -25,7 +25,15 @@ function read(req, res) {
   res.json({ data });
 }
 
+function playingAt(req, res, next) {
+  moviesService
+    .playingAt(req.params.movieId)
+    .then((data) => res.json({ data }))
+    .catch(next);
+}
+
 module.exports = {
   list,
   read: [movieExists, read],
+  playingAt: [movieExists, playingAt],
 };

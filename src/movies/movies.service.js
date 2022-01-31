@@ -1,14 +1,53 @@
 const knex = require("../db/connection");
 
 function list() {
-  return knex("movies").select("*");
+  return knex("movies").select(
+    "movie_id as id",
+    "title",
+    "runtime_in_minutes",
+    "rating",
+    "description",
+    "image_url"
+  );
 }
 
 function read(movieId) {
-  return knex("movies").select("*").where({ movie_id: movieId }).first();
+  return knex("movies")
+    .select(
+      "movie_id as id",
+      "title",
+      "runtime_in_minutes",
+      "rating",
+      "description",
+      "image_url"
+    )
+    .where({ movie_id: movieId })
+    .first();
+}
+
+function playingAt(movieId) {
+  return knex("movies as m")
+    .join("movies_theaters as mt", "m.movie_id", "mt.movie_id")
+    .join("theaters as t", "mt.theater_id", "t.theater_id")
+    .select(
+      "t.theater_id",
+      "name",
+      "address_line_1",
+      "address_line_2",
+      "city",
+      "state",
+      "zip",
+      "t.created_at",
+      "t.updated_at",
+      "is_showing",
+      "m.movie_id",
+    )
+    .where({ "m.movie_id": movieId })
+    .first();
 }
 
 module.exports = {
   list,
   read,
+  playingAt,
 };
