@@ -1,10 +1,18 @@
 const moviesService = require("./movies.service");
 
 function list(req, res, next) {
-  moviesService
-    .list()
-    .then((data) => res.json({ data }))
-    .catch(next);
+  const is_showing = req.query.is_showing;
+  if (is_showing==="true") {
+    moviesService
+      .isShowing()
+      .then((data) => res.send({ data }))
+      .catch(next);
+  } else {
+    moviesService
+      .list()
+      .then((data) => res.json({ data }))
+      .catch(next);
+  }
 }
 
 function movieExists(req, res, next) {
@@ -32,12 +40,11 @@ function playingAt(req, res, next) {
     .catch(next);
 }
 
-function movieReview(req, res, next){
+function movieReview(req, res, next) {
   moviesService
     .movieReview(req.params.movieId)
-    .then((data) => res.json({data}))
-    .catch(next)
-
+    .then((data) => res.json({ data }))
+    .catch(next);
 }
 
 module.exports = {

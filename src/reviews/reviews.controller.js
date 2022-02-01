@@ -15,7 +15,7 @@ function reviewExists(req, res, next) {
         res.locals.review = review;
         return next();
       }
-      next({ status: 404, message: `review cannot be found.` });
+      next({ status: 404, message: `Review cannot be found.` });
     })
     .catch(next);
 }
@@ -31,13 +31,31 @@ async function destroy(req, res) {
   res.sendStatus(204);
 }
 
+// const VALID_PROPERTIES = ["content", "score", "movie_id", "critic_id"];
+
+// function hasOnlyValidProperties(req, res, next) {
+//   const { data = {} } = req.body;
+
+//   const invalidFields = Object.keys(data).filter(
+//     (field) => !VALID_PROPERTIES.includes(field)
+//   );
+
+//   if (invalidFields.length) {
+//     return next({
+//       status: 400,
+//       message: `Invalid field(s): ${invalidFields.join(", ")}`,
+//     });
+//   }
+//   next();
+// }
+
 function update(req, res, next) {
-  const updatedreview = {
+  const updatedReview = {
     ...req.body.data,
     review_id: res.locals.review.review_id,
   };
   service
-    .update(updatedreview)
+    .update(updatedReview)
     .then((data) => res.json({ data }))
     .catch(next);
 }
